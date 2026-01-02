@@ -2,182 +2,337 @@
 
 Claude Code Companion - Workflow automation for Claude Code.
 
-## Quick Start (2 Steps!)
+## Quick Start
 
 ```bash
-# Step 1: Install plugin (once)
+# Step 1: Install plugin (once globally)
 /install-plugin github:dearxcorex/plugin-claude
 
-# Step 2: Setup your project (once per project)
+# Step 2: Setup your project
 /awaken
-```
 
-**Done!** Now use:
-```bash
-/nnn "Add user login"    # Plan a task
-/gogogo                   # Execute it
-```
-
----
-
-## The Simple Flow
-
-```
-/nnn → /gogogo → done!
-  │        │
-  │        └─→ Executes plan, creates PR
-  │
-  └─→ Researches codebase, creates plan issue
-```
-
----
-
-## Real World Example
-
-### Setup (One Time)
-
-```bash
-cd my-project
-/awaken
-```
-
-Output:
-```
-✅ CCC Workflow installed!
-
-Commands (8): .claude/commands/
-Agents (3): .claude/agents/
-Memory: .ccc/memory/
-
-Ready! Try: /nnn "your first task"
-```
-
-### Daily Work
-
-```bash
-# Plan what you want to do
-/nnn "Add dark mode toggle to settings"
-```
-
-Output:
-```
-✅ Plan created: #1
-   "plan: Add dark mode toggle"
-
-Research found:
-  - src/styles/theme.ts (existing theme)
-  - src/components/Settings.tsx (add toggle here)
-
-Ready to /gogogo
-```
-
-```bash
-# Execute the plan
+# Step 3: Start working!
+/nnn "Add user login"
 /gogogo
 ```
 
-Output:
-```
-✅ Plan #1 executed!
-
-Completed:
-  ✓ Create theme toggle component
-  ✓ Add to Settings page
-  ✓ Store preference in localStorage
-  ✓ Update global styles
-
-PR: #2 (ready for review)
-```
-
 ---
 
-## All Commands
+## `/awaken` - The Setup Command
 
-### Main Commands (Daily Use)
+One command to setup everything. Run once per project.
 
-| Command | What It Does |
-|---------|--------------|
-| `/nnn "task"` | Plan a task (researches codebase, creates issue) |
-| `/gogogo` | Execute latest plan (makes changes, creates PR) |
-| `/lll` | Show project status (issues, PRs, branches) |
+### Option 1: `/awaken` (Standard)
 
-### Context Commands (Optional)
+```bash
+/awaken
+```
 
-| Command | What It Does |
-|---------|--------------|
-| `/ccc` | Save context to GitHub issue |
-| `/recap` | Get summary of current state |
-| `/wip` | Show work in progress |
-| `/forward` | Save context before `/clear` |
-| `/rrr` | Write session retrospective |
-
-### Setup Command
-
-| Command | What It Does |
-|---------|--------------|
-| `/awaken` | Install everything (run once per project) |
-| `/awaken --full` | Install + create project docs |
-| `/awaken --dir .soul` | Use custom directory name |
-
----
-
-## What `/awaken` Creates
+**What it creates:**
 
 ```
 your-project/
 ├── .claude/
-│   ├── commands/        ← 8 workflow commands
-│   │   ├── nnn.md       (smart planning)
-│   │   ├── gogogo.md    (execute plans)
-│   │   ├── lll.md       (project status)
-│   │   ├── ccc.md       (save context)
-│   │   ├── rrr.md       (retrospective)
-│   │   ├── wip.md       (work in progress)
-│   │   ├── recap.md     (session summary)
-│   │   └── forward.md   (forward context)
-│   └── agents/          ← 3 specialized agents
-│       ├── planner.md   (researches & plans)
-│       ├── executor.md  (executes safely)
-│       └── context-finder.md (fast search)
+│   ├── commands/              ← 8 workflow commands
+│   │   ├── nnn.md
+│   │   ├── gogogo.md
+│   │   ├── lll.md
+│   │   ├── ccc.md
+│   │   ├── rrr.md
+│   │   ├── wip.md
+│   │   ├── recap.md
+│   │   └── forward.md
+│   └── agents/                ← 3 AI agents
+│       ├── planner.md
+│       ├── executor.md
+│       └── context-finder.md
 └── .ccc/
+    └── memory/                ← Storage for retrospectives
+        ├── retrospectives/
+        │   └── .gitkeep
+        └── learnings/
+            └── .gitkeep
+```
+
+**When to use:** Most projects. You get the workflow commands and storage for retrospectives.
+
+**Output:**
+```
+✅ CCC Workflow installed!
+
+Commands (8): .claude/commands/
+  ccc, nnn, gogogo, lll, rrr, wip, recap, forward
+
+Agents (3): .claude/agents/
+  context-finder, executor, planner
+
+Memory: .ccc/memory/
+  retrospectives/, learnings/
+
+Ready! Try: /nnn "your first task"
+```
+
+---
+
+### Option 2: `/awaken --full` (With Project Docs)
+
+```bash
+/awaken --full
+```
+
+**What it creates:**
+
+```
+your-project/
+├── .claude/
+│   ├── commands/              ← Same as standard
+│   └── agents/                ← Same as standard
+└── .ccc/
+    ├── HOME.md                ← Project overview & quick start
+    ├── WIP.md                 ← Current work in progress tracker
+    ├── DECISIONS.md           ← Architecture decision records
     └── memory/
         ├── retrospectives/
         └── learnings/
 ```
 
+**The extra files:**
+
+#### `HOME.md` - Project Overview
+```markdown
+# Project Home
+
+## Overview
+[Brief description of this project]
+
+## Quick Start
+/lll          # See status
+/nnn "task"   # Plan something
+/gogogo       # Execute plan
+
+## Architecture
+[Key technical decisions]
+
+## Links
+- Repo: [url]
+- Docs: [url]
+```
+
+#### `WIP.md` - Work In Progress
+```markdown
+# Work In Progress
+
+## Current Focus
+[What's being worked on now]
+
+## Recent
+- [Recent item 1]
+- [Recent item 2]
+
+## Blocked
+[Any blockers]
+```
+
+#### `DECISIONS.md` - Architecture Decisions
+```markdown
+# Architecture Decisions
+
+## Template
+### [Decision Title]
+**Date**: YYYY-MM-DD
+**Status**: [Proposed | Accepted | Deprecated]
+
+**Context**: Why this decision was needed
+**Decision**: What was decided
+**Consequences**: What this means
+```
+
+**When to use:**
+- New projects where you want structured documentation
+- Team projects where you need to track decisions
+- Long-running projects that benefit from a "home base"
+
+**Output:**
+```
+✅ CCC Workflow installed!
+
+Commands (8): .claude/commands/
+Agents (3): .claude/agents/
+
+Project docs: .ccc/
+  HOME.md, WIP.md, DECISIONS.md
+  memory/retrospectives/, memory/learnings/
+
+Ready! Try: /nnn "your first task"
+```
+
 ---
 
-## Example Workflows
-
-### Feature Development
+### Option 3: `/awaken --dir <name>` (Custom Directory)
 
 ```bash
-/nnn "Add user authentication with OAuth"
+/awaken --dir .soul
+```
+
+**What it creates:**
+
+```
+your-project/
+├── .claude/
+│   ├── commands/              ← Always in .claude/
+│   └── agents/                ← Always in .claude/
+└── .soul/                     ← YOUR CUSTOM NAME
+    └── memory/
+        ├── retrospectives/
+        └── learnings/
+```
+
+**Examples:**
+```bash
+/awaken --dir .soul      # Creates .soul/memory/
+/awaken --dir .ai        # Creates .ai/memory/
+/awaken --dir memory     # Creates memory/memory/ (not recommended)
+/awaken --dir project    # Creates project/memory/
+```
+
+**Combine with --full:**
+```bash
+/awaken --full --dir .soul
+```
+
+Creates:
+```
+.soul/
+├── HOME.md
+├── WIP.md
+├── DECISIONS.md
+└── memory/
+    ├── retrospectives/
+    └── learnings/
+```
+
+**When to use:**
+- You prefer a different directory name
+- Following a convention from another project (like `ψ` from nat-agents)
+- Avoiding conflicts with existing `.ccc` directory
+
+---
+
+## Comparison Table
+
+| Feature | `/awaken` | `/awaken --full` | `/awaken --dir X` |
+|---------|-----------|------------------|-------------------|
+| Commands in `.claude/commands/` | ✓ | ✓ | ✓ |
+| Agents in `.claude/agents/` | ✓ | ✓ | ✓ |
+| `memory/retrospectives/` | ✓ | ✓ | ✓ |
+| `memory/learnings/` | ✓ | ✓ | ✓ |
+| `HOME.md` | - | ✓ | with --full |
+| `WIP.md` | - | ✓ | with --full |
+| `DECISIONS.md` | - | ✓ | with --full |
+| Directory name | `.ccc` | `.ccc` | Custom |
+
+---
+
+## After `/awaken` - The Workflow
+
+### Daily Commands
+
+| Command | Purpose | Example |
+|---------|---------|---------|
+| `/nnn "task"` | Plan a task | `/nnn "Add dark mode"` |
+| `/gogogo` | Execute latest plan | `/gogogo` |
+| `/lll` | See project status | `/lll` |
+
+### Context Commands (Optional)
+
+| Command | Purpose | When to Use |
+|---------|---------|-------------|
+| `/ccc` | Save context to GitHub | Before breaks, switching tasks |
+| `/recap` | Get session summary | Starting a new session |
+| `/wip` | Show current work | Check what's in progress |
+| `/forward` | Forward context | Before `/clear` |
+| `/rrr` | Write retrospective | After completing work |
+
+---
+
+## Example: Complete Project Setup
+
+### New React Project
+
+```bash
+# Create project
+npx create-next-app my-app
+cd my-app
+
+# Setup CCC workflow
+/awaken --full
+
+# Start working
+/nnn "Add user authentication with NextAuth"
 /gogogo
-# Review PR, merge, done!
+```
+
+### Existing Project (Minimal)
+
+```bash
+cd existing-project
+
+# Just the basics
+/awaken
+
+# Start working
+/nnn "Fix bug #42"
+/gogogo
+```
+
+### Team Project with Custom Directory
+
+```bash
+cd team-project
+
+# Full setup with custom dir
+/awaken --full --dir .project
+
+# Now you have:
+# .project/HOME.md      - Team reads this first
+# .project/WIP.md       - Track who's doing what
+# .project/DECISIONS.md - Record architecture choices
+```
+
+---
+
+## Workflow Examples
+
+### Simple Feature
+
+```bash
+/nnn "Add export to CSV button"
+/gogogo
+# Done! PR ready for review
 ```
 
 ### Bug Fix
 
 ```bash
-/nnn "#42"                    # Plan fix for issue #42
+/nnn "#123"              # Reference existing issue
 /gogogo
 ```
 
-### Multi-Session Work
+### Multi-Day Feature
 
 ```bash
-# Session 1
-/nnn "Build payment system"
-/gogogo                        # Partial progress
-/ccc                           # Save context
+# Day 1
+/nnn "Build payment integration"
+/gogogo                   # Partial progress
+/ccc                      # Save context
 
-# Session 2
-/recap                         # Catch up
-/gogogo                        # Continue
+# Day 2
+/recap                    # Catch up on context
+/gogogo                   # Continue work
+/rrr                      # Write retrospective
 ```
 
-### Check What's Happening
+### Check Status Anytime
 
 ```bash
 /lll
@@ -187,45 +342,467 @@ Output:
 ```
 ## Project Status
 
-Branch: feat/auth (+3 ahead)
+Branch: main (clean)
 
-Open Issues (2):
-  #5 - plan: Add OAuth
-  #3 - bug: Login timeout
+Open Issues (3):
+  #5 - plan: Add payments
+  #4 - bug: Login timeout
+  #2 - context: Yesterday's work
 
 Open PRs (1):
-  #4 - feat: User registration
+  #6 - feat: Add CSV export
 
 Recent Commits:
-  abc123 feat: Add signup form
+  abc123 feat: CSV export button
   def456 fix: Validation error
 ```
 
 ---
 
-## Tips
+## The Agents
 
-| Do | Don't |
-|----|-------|
-| `/nnn` before coding | Jump straight into code |
-| `/lll` to check status | Guess what's happening |
-| `/ccc` before breaks | Lose context |
-| `/gogogo` to execute | Manually follow plans |
+`/awaken` installs 3 specialized AI agents:
+
+| Agent | Model | Purpose | Used By |
+|-------|-------|---------|---------|
+| `planner` | Sonnet | Research codebase, create plans | `/nnn` |
+| `executor` | Sonnet | Execute plans safely | `/gogogo` |
+| `context-finder` | Haiku | Fast codebase search | Internal |
+
+**Security:** Each agent has restricted tools:
+- `planner` - Read-only (can't modify files)
+- `executor` - No force flags, no auto-merge
+- `context-finder` - Read-only, fast
 
 ---
 
-## Comparison: `/awaken` vs `/awaken --full`
+## Tips
 
-| Feature | `/awaken` | `/awaken --full` |
-|---------|-----------|------------------|
-| Commands | ✓ | ✓ |
-| Agents | ✓ | ✓ |
-| memory/ | ✓ | ✓ |
-| HOME.md | - | ✓ |
-| WIP.md | - | ✓ |
-| DECISIONS.md | - | ✓ |
+### Do
+- Run `/awaken` once when starting on a project
+- Use `/nnn` before writing code
+- Run `/lll` to check status
+- Use `/ccc` before taking breaks
 
-Use `--full` if you want project documentation templates.
+### Don't
+- Run `/awaken` multiple times (it's idempotent, but unnecessary)
+- Skip `/nnn` and code directly (plans help!)
+- Forget to `/ccc` before long breaks
+
+---
+
+## Real World Example: E-Commerce Project
+
+Complete walkthrough from setup to shipping features.
+
+### Day 0: Project Setup
+
+```bash
+# You just cloned a Next.js e-commerce project
+git clone https://github.com/company/shop-app
+cd shop-app
+
+# Install CCC workflow
+/awaken --full
+```
+
+**Output:**
+```
+✅ CCC Workflow installed!
+
+Commands (8): .claude/commands/
+Agents (3): .claude/agents/
+Project docs: .ccc/
+  HOME.md, WIP.md, DECISIONS.md
+  memory/retrospectives/, memory/learnings/
+
+Ready! Try: /nnn "your first task"
+```
+
+**Your project now:**
+```
+shop-app/
+├── .claude/
+│   ├── commands/        ← Your workflow tools
+│   └── agents/          ← AI helpers
+├── .ccc/
+│   ├── HOME.md          ← Fill in project overview
+│   ├── WIP.md           ← Track current work
+│   ├── DECISIONS.md     ← Record decisions
+│   └── memory/
+├── src/
+├── package.json
+└── ...
+```
+
+---
+
+### Day 1: First Feature - Add to Cart
+
+```bash
+# Check what's happening
+/lll
+```
+
+**Output:**
+```
+## Project Status
+
+Branch: main (clean)
+
+Open Issues (1):
+  #12 - feat: Add to cart functionality
+
+Open PRs (0)
+No open PRs
+
+Recent Commits:
+  a1b2c3d Initial commit
+  d4e5f6g Setup Next.js with Tailwind
+```
+
+```bash
+# Plan the feature
+/nnn "Implement add to cart for issue #12"
+```
+
+**What happens:**
+1. Planner agent searches your codebase
+2. Finds: `src/components/ProductCard.tsx`, `src/store/`, `src/types/`
+3. Creates detailed plan issue
+
+**Output:**
+```
+✅ Plan created: #13
+   "plan: Implement add to cart functionality"
+
+Research found:
+  - src/components/ProductCard.tsx (needs cart button)
+  - src/store/index.ts (Zustand store exists)
+  - src/types/product.ts (Product type defined)
+  - No cart state exists yet
+
+Ready to /gogogo
+```
+
+**GitHub Issue #13 created:**
+```markdown
+# Implementation Plan: Add to Cart
+
+**Created**: 2024-01-15 10:30 GMT+7
+
+## Problem Statement
+Add "Add to Cart" functionality to product cards.
+
+## Research Summary
+### Relevant Files
+- `src/components/ProductCard.tsx` - Add button here
+- `src/store/index.ts` - Zustand store, add cart slice
+- `src/types/product.ts` - Product type exists
+
+### Existing Patterns
+- Using Zustand for state management
+- Tailwind for styling
+- Product type: { id, name, price, image }
+
+## Implementation Steps
+
+### Phase 1: Cart State
+- [ ] Create cart types (CartItem, CartState)
+- [ ] Add cart slice to Zustand store
+- [ ] Implement addToCart, removeFromCart, clearCart
+
+### Phase 2: UI Components
+- [ ] Create AddToCartButton component
+- [ ] Add button to ProductCard
+- [ ] Create CartIcon with item count badge
+
+### Phase 3: Cart Drawer
+- [ ] Create CartDrawer component
+- [ ] Show cart items with quantities
+- [ ] Add remove and quantity controls
+
+## Success Criteria
+- [ ] Can add products to cart
+- [ ] Cart persists across page navigation
+- [ ] Cart icon shows item count
+- [ ] Can view and modify cart contents
+```
+
+```bash
+# Execute the plan
+/gogogo
+```
+
+**Output (during execution):**
+```
+📋 Executing Plan #13: "Add to Cart"
+
+[1/7] Creating cart types...
+      → Creating src/types/cart.ts
+      ✓ Done
+
+[2/7] Adding cart slice to store...
+      → Modifying src/store/index.ts
+      ✓ Done
+
+[3/7] Implementing cart actions...
+      → addToCart, removeFromCart, updateQuantity, clearCart
+      ✓ Done
+
+[4/7] Creating AddToCartButton component...
+      → Creating src/components/AddToCartButton.tsx
+      ✓ Done
+
+[5/7] Adding button to ProductCard...
+      → Modifying src/components/ProductCard.tsx
+      ✓ Done
+
+[6/7] Creating CartIcon component...
+      → Creating src/components/CartIcon.tsx
+      ✓ Done
+
+[7/7] Creating CartDrawer component...
+      → Creating src/components/CartDrawer.tsx
+      ✓ Done
+
+Running build... ✓ Passed
+Running tests... ✓ 8 passed
+
+Creating commit and PR...
+```
+
+**Final output:**
+```
+✅ Plan #13 executed!
+
+Created:
+  + src/types/cart.ts
+  + src/components/AddToCartButton.tsx
+  + src/components/CartIcon.tsx
+  + src/components/CartDrawer.tsx
+
+Modified:
+  ~ src/store/index.ts
+  ~ src/components/ProductCard.tsx
+  ~ src/app/layout.tsx
+
+Build: ✓ Passed
+Tests: ✓ 8 passed
+
+Branch: feat/13-add-to-cart
+Commit: abc1234
+PR: #14 (ready for review)
+
+Plan #13 closed.
+```
+
+```bash
+# End of day - save context
+/ccc
+```
+
+**Output:**
+```
+✅ Context saved: #15
+   "context: Add to cart complete, PR #14 ready"
+```
+
+---
+
+### Day 2: Code Review Feedback
+
+Your teammate reviewed PR #14 and left comments. Start new session:
+
+```bash
+# What's the status?
+/lll
+```
+
+**Output:**
+```
+## Project Status
+
+Branch: feat/13-add-to-cart
+
+Open Issues (2):
+  #15 - context: Add to cart complete
+  #12 - feat: Add to cart functionality
+
+Open PRs (1):
+  #14 - feat: Add to cart [Changes requested]
+
+Recent Commits:
+  abc1234 feat: Add to cart functionality
+```
+
+```bash
+# Get context from yesterday
+/recap
+```
+
+**Output:**
+```
+## Session Recap
+
+### Current State
+- Branch: feat/13-add-to-cart
+- PR #14 has review comments
+- Feature mostly complete
+
+### Review Feedback (from PR #14)
+- Add loading state to AddToCartButton
+- Handle out-of-stock products
+- Add toast notification on add
+
+### Suggested Next Steps
+1. Address review comments
+2. Push updates to PR #14
+```
+
+```bash
+# Plan the fixes
+/nnn "Address PR #14 review feedback"
+```
+
+**Output:**
+```
+✅ Plan created: #16
+   "plan: Address PR review feedback"
+
+Steps:
+  1. Add loading state to AddToCartButton
+  2. Add stock check before adding
+  3. Add toast notification
+
+Ready to /gogogo
+```
+
+```bash
+/gogogo
+# Makes changes, pushes to same branch
+# PR #14 auto-updates
+```
+
+---
+
+### Day 3: New Feature - Wishlist
+
+PR #14 merged! Start new feature:
+
+```bash
+/lll
+```
+
+**Output:**
+```
+## Project Status
+
+Branch: main (+1 ahead after merge)
+
+Open Issues (1):
+  #18 - feat: Add wishlist functionality
+
+Open PRs (0)
+All merged!
+
+Recent Commits:
+  xyz789 feat: Add to cart (#14)
+```
+
+```bash
+# Plan next feature
+/nnn "#18"   # Reference existing issue
+```
+
+```bash
+/gogogo
+```
+
+```bash
+# End of week - write retrospective
+/rrr
+```
+
+**Creates:** `.ccc/memory/retrospectives/2024-01-17_retrospective.md`
+
+---
+
+### Weekly Summary
+
+```bash
+/lll
+```
+
+**Output:**
+```
+## Project Status
+
+Branch: main (clean)
+
+Open Issues (2):
+  #22 - feat: Checkout flow
+  #21 - context: Week 1 complete
+
+Open PRs (0)
+All merged!
+
+Recent Commits (this week):
+  def456 feat: Wishlist functionality (#19)
+  xyz789 feat: Add to cart (#14)
+
+Stats:
+  - 2 features shipped
+  - 3 PRs merged
+  - 0 bugs introduced
+```
+
+---
+
+### Quick Reference for This Project
+
+```bash
+# Morning routine
+/lll                    # What's the status?
+/recap                  # What was I doing?
+
+# Working on features
+/nnn "description"      # Plan it
+/nnn "#42"              # Plan from issue
+/gogogo                 # Build it
+
+# Before breaks
+/ccc                    # Save context
+
+# End of day/week
+/rrr                    # Retrospective
+```
+
+---
+
+## Troubleshooting
+
+### "Command not found"
+
+```bash
+# Make sure plugin is installed
+/install-plugin github:dearxcorex/plugin-claude
+
+# Then run awaken
+/awaken
+```
+
+### "Already have .claude/ directory"
+
+`/awaken` will add to existing `.claude/` without overwriting your settings.
+
+### "Want to reset"
+
+```bash
+# Remove and reinstall
+rm -rf .claude/commands .claude/agents .ccc
+/awaken
+```
 
 ---
 
