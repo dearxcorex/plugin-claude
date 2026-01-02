@@ -1,120 +1,233 @@
 # CCC-Workflow
 
-Claude Code Companion - Workflow automation, context management, and project intelligence.
+Claude Code Companion - Workflow automation for Claude Code.
 
-## What You Get
+## Quick Start (2 Steps!)
 
-### Commands
+```bash
+# Step 1: Install plugin (once)
+/install-plugin github:dearxcorex/plugin-claude
 
-| Command | Purpose |
-|---------|---------|
-| `/awaken` | Install commands + agents to your project |
-| `/oracle-init` | Setup project philosophy & knowledge |
-| `/soul-init` | Create full project structure |
-| `/soul-lite` | Minimal setup (memory only) |
+# Step 2: Setup your project (once per project)
+/awaken
+```
 
-### What /awaken Installs
+**Done!** Now use:
+```bash
+/nnn "Add user login"    # Plan a task
+/gogogo                   # Execute it
+```
 
-**Commands** (to `.claude/commands/`):
+---
 
-| Command | Purpose |
-|---------|---------|
-| `/ccc` | Create context issue + compact conversation |
-| `/nnn` | Smart planning (auto-ccc + create plan) |
-| `/gogogo` | Execute most recent plan issue |
-| `/lll` | List project status (issues, PRs, commits) |
-| `/rrr` | Session retrospective with AI diary |
-| `/wip` | Show/update work in progress |
-| `/recap` | Fresh start summary for new sessions |
-| `/forward` | Forward context before /clear |
+## The Simple Flow
 
-**Agents** (to `.claude/agents/`):
+```
+/nnn → /gogogo → done!
+  │        │
+  │        └─→ Executes plan, creates PR
+  │
+  └─→ Researches codebase, creates plan issue
+```
 
-| Agent | Model | Purpose |
-|-------|-------|---------|
-| `context-finder` | haiku | Fast codebase search (read-only) |
-| `executor` | sonnet | Execute plans (secure) |
-| `planner` | sonnet | Create plans (research-only) |
+---
 
-## Project Structure After Setup
+## Real World Example
+
+### Setup (One Time)
+
+```bash
+cd my-project
+/awaken
+```
+
+Output:
+```
+✅ CCC Workflow installed!
+
+Commands (8): .claude/commands/
+Agents (3): .claude/agents/
+Memory: .ccc/memory/
+
+Ready! Try: /nnn "your first task"
+```
+
+### Daily Work
+
+```bash
+# Plan what you want to do
+/nnn "Add dark mode toggle to settings"
+```
+
+Output:
+```
+✅ Plan created: #1
+   "plan: Add dark mode toggle"
+
+Research found:
+  - src/styles/theme.ts (existing theme)
+  - src/components/Settings.tsx (add toggle here)
+
+Ready to /gogogo
+```
+
+```bash
+# Execute the plan
+/gogogo
+```
+
+Output:
+```
+✅ Plan #1 executed!
+
+Completed:
+  ✓ Create theme toggle component
+  ✓ Add to Settings page
+  ✓ Store preference in localStorage
+  ✓ Update global styles
+
+PR: #2 (ready for review)
+```
+
+---
+
+## All Commands
+
+### Main Commands (Daily Use)
+
+| Command | What It Does |
+|---------|--------------|
+| `/nnn "task"` | Plan a task (researches codebase, creates issue) |
+| `/gogogo` | Execute latest plan (makes changes, creates PR) |
+| `/lll` | Show project status (issues, PRs, branches) |
+
+### Context Commands (Optional)
+
+| Command | What It Does |
+|---------|--------------|
+| `/ccc` | Save context to GitHub issue |
+| `/recap` | Get summary of current state |
+| `/wip` | Show work in progress |
+| `/forward` | Save context before `/clear` |
+| `/rrr` | Write session retrospective |
+
+### Setup Command
+
+| Command | What It Does |
+|---------|--------------|
+| `/awaken` | Install everything (run once per project) |
+| `/awaken --full` | Install + create project docs |
+| `/awaken --dir .soul` | Use custom directory name |
+
+---
+
+## What `/awaken` Creates
 
 ```
 your-project/
 ├── .claude/
-│   ├── commands/      ← installed by /awaken
-│   ├── agents/        ← installed by /awaken
-│   ├── knowledge/     ← created by /oracle-init
-│   │   ├── philosophy.md
-│   │   └── writing-style.md
-│   └── settings.json
-└── .ccc/              ← created by /soul-init (configurable)
-    ├── HOME.md
-    ├── WIP.md
-    ├── DECISIONS.md
-    ├── PATTERNS.md
+│   ├── commands/        ← 8 workflow commands
+│   │   ├── nnn.md       (smart planning)
+│   │   ├── gogogo.md    (execute plans)
+│   │   ├── lll.md       (project status)
+│   │   ├── ccc.md       (save context)
+│   │   ├── rrr.md       (retrospective)
+│   │   ├── wip.md       (work in progress)
+│   │   ├── recap.md     (session summary)
+│   │   └── forward.md   (forward context)
+│   └── agents/          ← 3 specialized agents
+│       ├── planner.md   (researches & plans)
+│       ├── executor.md  (executes safely)
+│       └── context-finder.md (fast search)
+└── .ccc/
     └── memory/
         ├── retrospectives/
-        ├── learnings/
-        └── context/
+        └── learnings/
 ```
 
-## Quick Start
+---
+
+## Example Workflows
+
+### Feature Development
 
 ```bash
-# 1. Install plugin
-/install-plugin github:dearxcorex/plugin-claude
-
-# 2. Setup your project
-/ccc-workflow:oracle-init    # Philosophy & knowledge
-/ccc-workflow:soul-lite      # Or /soul-init for full structure
-/ccc-workflow:awaken         # Install commands & agents
-
-# 3. Start working
-/recap                       # Get up to speed
-/lll                         # See project status
-/nnn                         # Plan next task
-/gogogo                      # Execute the plan
-/rrr                         # Write retrospective
+/nnn "Add user authentication with OAuth"
+/gogogo
+# Review PR, merge, done!
 ```
 
-## Workflow Pattern
-
-```
-/ccc → /nnn → /gogogo → /rrr
-  ↓      ↓       ↓        ↓
-context  plan   execute  reflect
-```
-
-## Directory Configuration
-
-All commands support custom directory names:
+### Bug Fix
 
 ```bash
-/soul-init           # Creates .ccc/
-/soul-init mydir     # Creates mydir/
-/soul-init ψ         # Creates ψ/ (nat-agents-core style)
+/nnn "#42"                    # Plan fix for issue #42
+/gogogo
 ```
 
-## Improvements Over nat-agents-core
+### Multi-Session Work
 
-| Issue | nat-agents-core | ccc-workflow |
-|-------|-----------------|--------------|
-| Directory | Forced ψ/ | Configurable |
-| Models | Haiku only | Haiku + Sonnet |
-| Security | Unrestricted | Tool restrictions |
-| Executor | Risky | Safe (no force, no auto-merge) |
-| Philosophy | Heavy | Practical |
-| Setup | Complex | Simple 3-step |
+```bash
+# Session 1
+/nnn "Build payment system"
+/gogogo                        # Partial progress
+/ccc                           # Save context
 
-## Agent Security
+# Session 2
+/recap                         # Catch up
+/gogogo                        # Continue
+```
 
-All agents have explicit **tool restrictions**:
+### Check What's Happening
 
-| Agent | Tools | Cannot |
-|-------|-------|--------|
-| context-finder | Glob, Grep, Read, LSP | Write, Bash, Web |
-| planner | Read, Glob, Grep, LSP, Web | Write, Edit, Bash |
-| executor | Read, Write, Edit, Bash, Glob | WebFetch, auto-merge |
+```bash
+/lll
+```
+
+Output:
+```
+## Project Status
+
+Branch: feat/auth (+3 ahead)
+
+Open Issues (2):
+  #5 - plan: Add OAuth
+  #3 - bug: Login timeout
+
+Open PRs (1):
+  #4 - feat: User registration
+
+Recent Commits:
+  abc123 feat: Add signup form
+  def456 fix: Validation error
+```
+
+---
+
+## Tips
+
+| Do | Don't |
+|----|-------|
+| `/nnn` before coding | Jump straight into code |
+| `/lll` to check status | Guess what's happening |
+| `/ccc` before breaks | Lose context |
+| `/gogogo` to execute | Manually follow plans |
+
+---
+
+## Comparison: `/awaken` vs `/awaken --full`
+
+| Feature | `/awaken` | `/awaken --full` |
+|---------|-----------|------------------|
+| Commands | ✓ | ✓ |
+| Agents | ✓ | ✓ |
+| memory/ | ✓ | ✓ |
+| HOME.md | - | ✓ |
+| WIP.md | - | ✓ |
+| DECISIONS.md | - | ✓ |
+
+Use `--full` if you want project documentation templates.
+
+---
 
 ## License
 

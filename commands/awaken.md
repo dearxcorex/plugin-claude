@@ -6,72 +6,196 @@ allowed-tools:
   - Write
 ---
 
-# Awaken - Install CCC Workflow
+# Awaken - One Command Setup
 
-Install all workflow commands and agents to your current project's `.claude/` directory.
+**Just run `/awaken` and you're ready to go!**
 
-## What Gets Installed
-
-**Commands** (8): ccc, nnn, gogogo, lll, rrr, wip, recap, forward
-
-**Agents** (3): context-finder, executor, planner
-
-## Step 1: Verify Plugin Location
-
-First, find the plugin cache location:
+## Usage
 
 ```bash
-ls -d ~/.claude/plugins/cache/*/ccc-workflow/*/ 2>/dev/null | sort -V | tail -1
+# Standard setup (recommended)
+/awaken
+
+# Full setup with project docs
+/awaken --full
+
+# Custom memory directory
+/awaken --dir .soul
 ```
 
-## Step 2: Install
+## What It Does
 
-Run this command to copy all bundles to your project:
+```
+/awaken
+  │
+  ├─→ Install 8 commands to .claude/commands/
+  │
+  ├─→ Install 3 agents to .claude/agents/
+  │
+  └─→ Create .ccc/memory/ for retrospectives
+```
+
+**With `--full`:**
+```
+/awaken --full
+  │
+  ├─→ Install commands + agents
+  │
+  └─→ Create .ccc/ with:
+      ├── HOME.md        (project overview)
+      ├── WIP.md         (work in progress)
+      ├── DECISIONS.md   (architecture decisions)
+      └── memory/
+          ├── retrospectives/
+          └── learnings/
+```
+
+## Step 1: Find Plugin Source
 
 ```bash
-CORE=`ls -d ~/.claude/plugins/cache/*/ccc-workflow/*/ 2>/dev/null | sort -V | tail -1` && mkdir -p .claude/commands .claude/agents && cp "$CORE"bundles/commands/*.md .claude/commands/ && cp "$CORE"bundles/agents/*.md .claude/agents/ && echo "✅ Installed from $CORE"
+PLUGIN_DIR=$(ls -d ~/.claude/plugins/cache/*/ccc-workflow/*/ 2>/dev/null | sort -V | tail -1)
 ```
 
-## Step 3: Verify Installation
+## Step 2: Install Commands & Agents
 
 ```bash
-echo "Commands:" && ls .claude/commands/*.md 2>/dev/null | wc -l && echo "Agents:" && ls .claude/agents/*.md 2>/dev/null | wc -l
+# Create directories
+mkdir -p .claude/commands .claude/agents
+
+# Copy from plugin
+cp "$PLUGIN_DIR"bundles/commands/*.md .claude/commands/
+cp "$PLUGIN_DIR"bundles/agents/*.md .claude/agents/
 ```
 
-## What's Installed
+## Step 3: Create Memory Structure
 
-### Commands → `.claude/commands/`
-| Command | Purpose |
-|---------|---------|
-| `/ccc` | Create context issue + compact conversation |
-| `/nnn` | Smart planning (auto-ccc check + create plan) |
-| `/gogogo` | Execute most recent plan issue |
-| `/lll` | List project status (issues, PRs, commits) |
-| `/rrr` | Create session retrospective |
-| `/wip` | Show current work in progress |
-| `/recap` | Fresh start summary for new sessions |
-| `/forward` | Forward context before /clear |
-
-### Agents → `.claude/agents/`
-| Agent | Model | Purpose |
-|-------|-------|---------|
-| `context-finder` | haiku | Fast codebase search (read-only) |
-| `executor` | sonnet | Execute plans securely |
-| `planner` | sonnet | Create implementation plans (research-only) |
-
-## After Installation
-
-Suggest running:
-- `/init-lite` to create memory structure
-- `/lll` to see project status
-- `/recap` to get started
-
-## Upgrade Existing
-
-If commands already exist, the copy will overwrite with latest versions.
-
-To backup first:
 ```bash
-cp -r .claude/commands .claude/commands.backup 2>/dev/null
-cp -r .claude/agents .claude/agents.backup 2>/dev/null
+# Default directory name (or use --dir argument)
+DIR_NAME=".ccc"
+
+# Create memory directories
+mkdir -p "$DIR_NAME/memory/retrospectives" "$DIR_NAME/memory/learnings"
+
+# Add .gitkeep to preserve empty dirs
+touch "$DIR_NAME/memory/retrospectives/.gitkeep"
+touch "$DIR_NAME/memory/learnings/.gitkeep"
 ```
+
+## Step 4: (If --full) Create Project Docs
+
+Only if `--full` flag is used:
+
+```bash
+# HOME.md - Project overview
+cat > "$DIR_NAME/HOME.md" << 'EOF'
+# Project Home
+
+## Overview
+[Brief description of this project]
+
+## Quick Start
+```bash
+/lll          # See status
+/nnn "task"   # Plan something
+/gogogo       # Execute plan
+```
+
+## Architecture
+[Key technical decisions]
+
+## Links
+- Repo: [url]
+- Docs: [url]
+EOF
+
+# WIP.md - Current work
+cat > "$DIR_NAME/WIP.md" << 'EOF'
+# Work In Progress
+
+## Current Focus
+[What's being worked on now]
+
+## Recent
+- [Recent item 1]
+- [Recent item 2]
+
+## Blocked
+[Any blockers]
+EOF
+
+# DECISIONS.md - Architecture decisions
+cat > "$DIR_NAME/DECISIONS.md" << 'EOF'
+# Architecture Decisions
+
+## Template
+### [Decision Title]
+**Date**: YYYY-MM-DD
+**Status**: [Proposed | Accepted | Deprecated]
+
+**Context**: Why this decision was needed
+
+**Decision**: What was decided
+
+**Consequences**: What this means
+EOF
+```
+
+## Output
+
+**Standard (`/awaken`):**
+```
+✅ CCC Workflow installed!
+
+Commands (8): .claude/commands/
+  ccc, nnn, gogogo, lll, rrr, wip, recap, forward
+
+Agents (3): .claude/agents/
+  context-finder, executor, planner
+
+Memory: .ccc/memory/
+  retrospectives/, learnings/
+
+Ready! Try: /nnn "your first task"
+```
+
+**Full (`/awaken --full`):**
+```
+✅ CCC Workflow installed!
+
+Commands (8): .claude/commands/
+Agents (3): .claude/agents/
+
+Project docs: .ccc/
+  HOME.md, WIP.md, DECISIONS.md
+  memory/retrospectives/, memory/learnings/
+
+Ready! Try: /nnn "your first task"
+```
+
+## After Setup
+
+Your project structure:
+```
+your-project/
+├── .claude/
+│   ├── commands/     ← workflow commands
+│   └── agents/       ← specialized agents
+├── .ccc/
+│   ├── HOME.md       ← (only with --full)
+│   ├── WIP.md        ← (only with --full)
+│   ├── DECISIONS.md  ← (only with --full)
+│   └── memory/
+│       ├── retrospectives/
+│       └── learnings/
+└── your code...
+```
+
+## Next Steps
+
+After `/awaken`, just use:
+```bash
+/nnn "Add user login"    # Plan a task
+/gogogo                   # Execute it
+```
+
+That's it! No other setup needed.
