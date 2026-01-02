@@ -1,0 +1,18 @@
+{
+  "name": "ccc-workflow",
+  "version": "1.0.0",
+  "description": "Claude Code Companion - Workflow automation, context management, and project intelligence",
+  "author": {
+    "name": "dearxcorex",
+    "url": "https://github.com/dearxcorex"
+  },
+  "repository": "https://github.com/dearxcorex/plugin-claude",
+  "license": "MIT",
+  "keywords": [
+    "workflow",
+    "automation",
+    "context",
+    "productivity",
+    "project-management"
+  ]
+}

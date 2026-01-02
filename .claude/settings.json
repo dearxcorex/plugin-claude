@@ -1,0 +1,11 @@
+{
+  "workflow": {
+    "workDir": ".ccc",
+    "timezone": "GMT+7",
+    "autoContext": true
+  },
+  "safety": {
+    "confirmDestructive": true,
+    "backupBeforeDelete": true
+  }
+}
