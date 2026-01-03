@@ -3,10 +3,13 @@
   "owner": {
     "name": "dearxcorex"
   },
+  "metadata": {
+    "description": "CCC - Claude Code Companion workflow automation"
+  },
   "plugins": [
     {
       "name": "ccc",
-      "source": "..",
+      "source": "./",
       "description": "Workflow automation and context management"
     }
   ]
