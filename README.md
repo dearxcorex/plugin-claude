@@ -33,7 +33,7 @@ One command to setup everything. Run once per project.
 ```
 your-project/
 ├── .claude/
-│   ├── commands/              ← 10 workflow commands
+│   ├── commands/              ← 12 workflow commands
 │   │   ├── nnn.md
 │   │   ├── gogogo.md
 │   │   ├── lll.md
@@ -42,14 +42,20 @@ your-project/
 │   │   ├── wip.md
 │   │   ├── recap.md
 │   │   ├── forward.md
-│   │   ├── research.md        ← NEW
-│   │   └── review.md          ← NEW
-│   └── agents/                ← 4 AI agents
+│   │   ├── research.md
+│   │   ├── review.md
+│   │   ├── template.md        ← NEW
+│   │   └── mcp-setup.md       ← NEW
+│   └── agents/                ← 5 AI agents
 │       ├── planner.md
 │       ├── executor.md
 │       ├── context-finder.md
-│       └── researcher.md      ← NEW
+│       ├── researcher.md
+│       └── document.md        ← NEW
 └── .ccc/
+    ├── templates/             ← document templates
+    │   └── govdoc/            ← Thai gov docs
+    ├── docs/                  ← generated documents
     └── memory/
         ├── retrospectives/
         └── learnings/
@@ -61,16 +67,19 @@ your-project/
 ```
 ✅ CCC Workflow installed!
 
-Commands (10): .claude/commands/
-  Core:     ccc, nnn, gogogo, lll
-  Context:  rrr, wip, recap, forward
-  Research: research, review
+Commands (12): .claude/commands/
+  Core:      ccc, nnn, gogogo, lll
+  Context:   rrr, wip, recap, forward
+  Research:  research, review
+  Document:  template, mcp-setup
 
-Agents (4): .claude/agents/
-  planner, executor, context-finder, researcher
+Agents (5): .claude/agents/
+  planner, executor, context-finder, researcher, document
 
-Memory: .ccc/memory/
-  retrospectives/, learnings/
+Directories: .ccc/
+  memory/     (retrospectives, learnings)
+  templates/  (document templates)
+  docs/       (generated documents)
 
 Ready! Try: /nnn "your first task"
 ```
@@ -879,6 +888,152 @@ Stats:
 # End of day/week
 /rrr                    # Retrospective
 ```
+
+---
+
+## Step-by-Step: Document Generation Project
+
+Complete guide for building a document generation system (e.g., Thai government documents).
+
+### Phase 1: Setup (Day 1)
+
+```bash
+# Create your project
+mkdir thai-govdoc-ai
+cd thai-govdoc-ai
+git init
+
+# Setup CCC workflow with full templates
+/awaken --full
+```
+
+**Your project now has:**
+```
+thai-govdoc-ai/
+├── .claude/
+│   ├── commands/      ← 12 commands ready
+│   └── agents/        ← 5 agents ready
+└── .ccc/
+    ├── HOME.md        ← Edit with project info
+    ├── templates/
+    │   └── govdoc/    ← Thai document templates
+    └── docs/          ← Generated documents go here
+```
+
+### Phase 2: Setup MCP for Word/PDF (Day 1)
+
+```bash
+# View MCP setup guide
+/mcp-setup documents
+```
+
+**Add to `~/.claude/settings.json`:**
+```json
+{
+  "mcpServers": {
+    "document-operations": {
+      "command": "uvx",
+      "args": ["document-operations-mcp"]
+    }
+  }
+}
+```
+
+**Restart Claude Code and verify:**
+```bash
+exit
+claude
+/mcp
+```
+
+### Phase 3: Research (Day 1-2)
+
+```bash
+# Research Thai government document formats
+/research "หนังสือราชการ format ระเบียบสำนักนายกรัฐมนตรี"
+
+# Research existing tools
+/research github:whs/typst-govdoc
+
+# Download official templates
+/research https://www.kruchiangrai.net/2021/11/12/หนังสือราชการ/
+```
+
+### Phase 4: Plan Your System (Day 2)
+
+```bash
+# Create implementation plan
+/nnn "Build Thai government document generator with AI"
+```
+
+**Plan will include:**
+- Document understanding agent
+- Template selection logic
+- Content generation with formal Thai
+- Format validation
+- Word/PDF output
+
+### Phase 5: Implement (Day 3-5)
+
+```bash
+# Execute the plan
+/gogogo
+
+# Review implementation
+/review
+```
+
+### Phase 6: Use Templates (Ongoing)
+
+```bash
+# List available templates
+/template list
+
+# Create memo
+/template create govdoc-memo "ขอความอนุเคราะห์ข้อมูล"
+
+# Create external letter
+/template create govdoc-external "ขอเชิญเป็นวิทยากร"
+```
+
+### Complete Workflow
+
+```
+/awaken --full          # Setup project
+        ↓
+/mcp-setup documents    # Setup Word/PDF MCP
+        ↓
+/research               # Research requirements
+        ↓
+/nnn "your system"      # Plan implementation
+        ↓
+/gogogo                 # Build it
+        ↓
+/template create        # Use templates
+        ↓
+MCP converts to Word/PDF
+        ↓
+Final Document Ready!
+```
+
+### Document Commands Reference
+
+| Command | Purpose |
+|---------|---------|
+| `/template list` | Show all templates |
+| `/template get <name>` | Download template |
+| `/template create <name> "title"` | Create document |
+| `/mcp-setup documents` | Setup MCP for docs |
+
+### Thai Government Document Templates
+
+| Template | Thai Name |
+|----------|-----------|
+| `govdoc-external` | หนังสือภายนอก |
+| `govdoc-internal` | หนังสือภายใน |
+| `govdoc-memo` | บันทึกข้อความ |
+| `govdoc-order` | คำสั่ง |
+| `govdoc-announce` | ประกาศ |
 
 ---
 
