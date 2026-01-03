@@ -1,53 +1,26 @@
-# CCC-Workflow
+# CCC - Claude Code Companion
 
 AI-powered workflow automation for Claude Code. Plan, execute, and track your development tasks.
 
 ---
 
-## Step 1: Install the Plugin
-
-Run this once (globally installs to your system):
+## Install
 
 ```bash
-/install-plugin github:dearxcorex/plugin-claude
+/plugin marketplace add dearxcorex/plugin-claude
+/plugin install ccc@dearxcorex-plugin-claude
 ```
+
+Done! Commands available as `/ccc:nnn`, `/ccc:gogogo`, etc.
 
 ---
 
-## Step 2: Setup Your Project
-
-Navigate to any project and run:
-
-```bash
-cd your-project
-/awaken
-```
-
-This creates:
-```
-your-project/
-├── .claude/
-│   ├── commands/     ← 10 workflow commands
-│   └── agents/       ← 4 AI agents
-└── .ccc/
-    └── memory/       ← Retrospectives & learnings
-```
-
-**Options:**
-```bash
-/awaken              # Standard setup
-/awaken --full       # + HOME.md, WIP.md, DECISIONS.md
-/awaken --dir .ai    # Custom directory name instead of .ccc
-```
-
----
-
-## Step 3: Start Working
+## Start Working
 
 ### The Core Loop
 
 ```
-/nnn "task"  →  /gogogo  →  Done!
+/ccc:nnn "task"  →  /ccc:gogogo  →  Done!
 ```
 
 That's it. Two commands for most work.
@@ -60,29 +33,28 @@ That's it. Two commands for most work.
 
 | Command | What it does |
 |---------|--------------|
-| `/nnn "task"` | Plan a task - AI researches your code and creates a GitHub issue with implementation steps |
-| `/gogogo` | Execute the plan - AI follows the steps, writes code, creates PR |
-| `/lll` | Show status - open issues, PRs, recent commits |
+| `/ccc:nnn "task"` | Plan a task - AI researches your code and creates a GitHub issue |
+| `/ccc:gogogo` | Execute the plan - AI follows the steps, writes code, creates PR |
+| `/ccc:lll` | Show status - open issues, PRs, recent commits |
 
-### Context Commands (Use When Needed)
+### Context Commands
 
 | Command | What it does |
 |---------|--------------|
-| `/ccc` | Save context to GitHub issue (before breaks) |
-| `/recap` | Get summary of current work (starting new session) |
-| `/wip` | Show what's in progress |
-| `/forward` | Forward context before `/clear` |
-| `/rrr` | Write session retrospective |
+| `/ccc:ccc` | Save context to GitHub issue (before breaks) |
+| `/ccc:recap` | Get summary of current work (starting new session) |
+| `/ccc:wip` | Show what's in progress |
+| `/ccc:forward` | Forward context before `/clear` |
+| `/ccc:rrr` | Write session retrospective |
 
 ### Research Commands
 
 | Command | What it does |
 |---------|--------------|
-| `/research <url>` | Analyze a website or documentation |
-| `/research github:user/repo` | Analyze a GitHub repository |
-| `/research "query"` | Search and research a topic |
-| `/review` | Review your current project |
-| `/review security` | Security-focused review |
+| `/ccc:research <url>` | Analyze a website or documentation |
+| `/ccc:research github:user/repo` | Analyze a GitHub repository |
+| `/ccc:review` | Review your current project |
+| `/ccc:review security` | Security-focused review |
 
 ---
 
@@ -93,7 +65,7 @@ Let's add a dark mode toggle to a React app.
 ### 1. Check Status
 
 ```bash
-/lll
+/ccc:lll
 ```
 
 Output:
@@ -106,7 +78,7 @@ Open PRs: 0
 ### 2. Plan the Feature
 
 ```bash
-/nnn "Add dark mode toggle to the header"
+/ccc:nnn "Add dark mode toggle to the header"
 ```
 
 **What happens:**
@@ -129,13 +101,13 @@ Steps planned:
   3. Implement dark styles
   4. Persist preference
 
-Ready to /gogogo
+Ready to /ccc:gogogo
 ```
 
 ### 3. Execute the Plan
 
 ```bash
-/gogogo
+/ccc:gogogo
 ```
 
 **What happens:**
@@ -173,14 +145,14 @@ For bigger features that span multiple sessions.
 ### Day 1: Start
 
 ```bash
-/nnn "Build user authentication system"
-/gogogo
+/ccc:nnn "Build user authentication system"
+/ccc:gogogo
 ```
 
 Work gets partially done. Before you leave:
 
 ```bash
-/ccc
+/ccc:ccc
 ```
 
 Saves context to GitHub issue #X.
@@ -188,7 +160,7 @@ Saves context to GitHub issue #X.
 ### Day 2: Continue
 
 ```bash
-/recap
+/ccc:recap
 ```
 
 Shows where you left off:
@@ -200,14 +172,14 @@ Next: Add JWT validation
 
 Continue:
 ```bash
-/gogogo
+/ccc:gogogo
 ```
 
 ### Day 3: Finish
 
 ```bash
-/gogogo    # Complete the work
-/rrr       # Write retrospective
+/ccc:gogogo    # Complete the work
+/ccc:rrr       # Write retrospective
 ```
 
 ---
@@ -219,7 +191,7 @@ When you need to understand something first.
 ### Research a Library
 
 ```bash
-/research github:shadcn/ui
+/ccc:research github:shadcn/ui
 ```
 
 Output:
@@ -241,20 +213,14 @@ Pattern: Copy components, not install
 ### Research Documentation
 
 ```bash
-/research https://nextjs.org/docs/app/api-reference/functions/cookies
-```
-
-### Research a Topic
-
-```bash
-/research "React Server Components best practices 2024"
+/ccc:research https://nextjs.org/docs/app/api-reference/functions/cookies
 ```
 
 ### Then Build
 
 ```bash
-/nnn "Add shadcn button component following their patterns"
-/gogogo
+/ccc:nnn "Add shadcn button component following their patterns"
+/ccc:gogogo
 ```
 
 ---
@@ -264,7 +230,7 @@ Pattern: Copy components, not install
 ### Quick Review
 
 ```bash
-/review
+/ccc:review
 ```
 
 Output:
@@ -288,7 +254,7 @@ Suggestions:
 ### Security Review
 
 ```bash
-/review security
+/ccc:review security
 ```
 
 Focuses on:
@@ -303,18 +269,18 @@ Focuses on:
 
 ```bash
 # Morning
-/lll                    # What's the status?
-/recap                  # What was I doing?
+/ccc:lll                # What's the status?
+/ccc:recap              # What was I doing?
 
 # Working
-/nnn "description"      # Plan it
-/gogogo                 # Build it
+/ccc:nnn "description"  # Plan it
+/ccc:gogogo             # Build it
 
 # Before breaks
-/ccc                    # Save context
+/ccc:ccc                # Save context
 
 # End of day
-/rrr                    # Retrospective
+/ccc:rrr                # Retrospective
 ```
 
 ---
@@ -337,9 +303,9 @@ Each agent has restricted permissions for safety.
 ## Tips
 
 **Do:**
-- Always `/nnn` before coding (plans help!)
-- Use `/ccc` before long breaks
-- Run `/lll` to stay oriented
+- Always `/ccc:nnn` before coding (plans help!)
+- Use `/ccc:ccc` before long breaks
+- Run `/ccc:lll` to stay oriented
 
 **Don't:**
 - Skip planning for "quick" changes
@@ -353,22 +319,16 @@ Each agent has restricted permissions for safety.
 ### Command not found
 
 ```bash
-/install-plugin github:dearxcorex/plugin-claude
-/awaken
-```
-
-### Want to reset
-
-```bash
-rm -rf .claude/commands .claude/agents .ccc
-/awaken
+/plugin marketplace add dearxcorex/plugin-claude
+/plugin install ccc@dearxcorex-plugin-claude
 ```
 
 ### Plugin not updating
 
 ```bash
-/uninstall-plugin ccc-workflow
-/install-plugin github:dearxcorex/plugin-claude
+/plugin uninstall ccc@dearxcorex-plugin-claude
+/plugin marketplace add dearxcorex/plugin-claude
+/plugin install ccc@dearxcorex-plugin-claude
 ```
 
 ---
@@ -377,22 +337,20 @@ rm -rf .claude/commands .claude/agents .ccc
 
 ```bash
 # Install (once)
-/install-plugin github:dearxcorex/plugin-claude
-
-# Setup (once per project)
-/awaken
+/plugin marketplace add dearxcorex/plugin-claude
+/plugin install ccc@dearxcorex-plugin-claude
 
 # Daily use
-/lll                      # Status
-/nnn "task"               # Plan
-/gogogo                   # Execute
-/ccc                      # Save context
-/rrr                      # Retrospective
+/ccc:lll                  # Status
+/ccc:nnn "task"           # Plan
+/ccc:gogogo               # Execute
+/ccc:ccc                  # Save context
+/ccc:rrr                  # Retrospective
 
 # Research
-/research <url>           # Analyze site
-/research github:u/r      # Analyze repo
-/review                   # Review project
+/ccc:research <url>       # Analyze site
+/ccc:research github:u/r  # Analyze repo
+/ccc:review               # Review project
 ```
 
 ---

@@ -1,7 +1,7 @@
 {
-  "name": "ccc-workflow",
+  "name": "ccc",
   "version": "1.0.0",
-  "description": "Claude Code Companion - Workflow automation, context management, and project intelligence",
+  "description": "Claude Code Companion - Workflow automation and context management",
   "author": {
     "name": "dearxcorex",
     "url": "https://github.com/dearxcorex"
@@ -12,7 +12,6 @@
     "workflow",
     "automation",
     "context",
-    "productivity",
-    "project-management"
+    "productivity"
   ]
 }
