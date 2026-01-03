@@ -1,12 +1,13 @@
 {
   "name": "dearxcorex-plugin-claude",
-  "description": "CCC - Claude Code Companion plugins",
+  "owner": {
+    "name": "dearxcorex"
+  },
   "plugins": [
     {
       "name": "ccc",
-      "description": "Workflow automation and context management",
-      "version": "1.0.0",
-      "path": ".."
+      "source": "..",
+      "description": "Workflow automation and context management"
     }
   ]
 }
