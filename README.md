@@ -33,7 +33,7 @@ One command to setup everything. Run once per project.
 ```
 your-project/
 ├── .claude/
-│   ├── commands/              ← 8 workflow commands
+│   ├── commands/              ← 10 workflow commands
 │   │   ├── nnn.md
 │   │   ├── gogogo.md
 │   │   ├── lll.md
@@ -41,17 +41,18 @@ your-project/
 │   │   ├── rrr.md
 │   │   ├── wip.md
 │   │   ├── recap.md
-│   │   └── forward.md
-│   └── agents/                ← 3 AI agents
+│   │   ├── forward.md
+│   │   ├── research.md        ← NEW
+│   │   └── review.md          ← NEW
+│   └── agents/                ← 4 AI agents
 │       ├── planner.md
 │       ├── executor.md
-│       └── context-finder.md
+│       ├── context-finder.md
+│       └── researcher.md      ← NEW
 └── .ccc/
-    └── memory/                ← Storage for retrospectives
+    └── memory/
         ├── retrospectives/
-        │   └── .gitkeep
         └── learnings/
-            └── .gitkeep
 ```
 
 **When to use:** Most projects. You get the workflow commands and storage for retrospectives.
@@ -60,11 +61,13 @@ your-project/
 ```
 ✅ CCC Workflow installed!
 
-Commands (8): .claude/commands/
-  ccc, nnn, gogogo, lll, rrr, wip, recap, forward
+Commands (10): .claude/commands/
+  Core:     ccc, nnn, gogogo, lll
+  Context:  rrr, wip, recap, forward
+  Research: research, review
 
-Agents (3): .claude/agents/
-  context-finder, executor, planner
+Agents (4): .claude/agents/
+  planner, executor, context-finder, researcher
 
 Memory: .ccc/memory/
   retrospectives/, learnings/
@@ -156,8 +159,8 @@ your-project/
 ```
 ✅ CCC Workflow installed!
 
-Commands (8): .claude/commands/
-Agents (3): .claude/agents/
+Commands (10): .claude/commands/
+Agents (4): .claude/agents/
 
 Project docs: .ccc/
   HOME.md, WIP.md, DECISIONS.md
@@ -252,6 +255,17 @@ Creates:
 | `/wip` | Show current work | Check what's in progress |
 | `/forward` | Forward context | Before `/clear` |
 | `/rrr` | Write retrospective | After completing work |
+
+### Research Commands (New!)
+
+| Command | Purpose | Example |
+|---------|---------|---------|
+| `/research <url>` | Analyze website/docs | `/research https://nextjs.org/docs` |
+| `/research github:user/repo` | Analyze GitHub repo | `/research github:facebook/react` |
+| `/research "query"` | Search and research | `/research "React Server Components"` |
+| `/review` | Review current project | `/review` |
+| `/review security` | Security-focused review | `/review security` |
+| `/review github:user/repo` | Review external repo | `/review github:shadcn/ui` |
 
 ---
 
@@ -361,18 +375,20 @@ Recent Commits:
 
 ## The Agents
 
-`/awaken` installs 3 specialized AI agents:
+`/awaken` installs 4 specialized AI agents:
 
 | Agent | Model | Purpose | Used By |
 |-------|-------|---------|---------|
 | `planner` | Sonnet | Research codebase, create plans | `/nnn` |
 | `executor` | Sonnet | Execute plans safely | `/gogogo` |
 | `context-finder` | Haiku | Fast codebase search | Internal |
+| `researcher` | Sonnet | Research web, GitHub, papers | `/research`, `/review` |
 
 **Security:** Each agent has restricted tools:
 - `planner` - Read-only (can't modify files)
 - `executor` - No force flags, no auto-merge
 - `context-finder` - Read-only, fast
+- `researcher` - Read-only, web access, temp clones only
 
 ---
 
@@ -388,6 +404,92 @@ Recent Commits:
 - Run `/awaken` multiple times (it's idempotent, but unnecessary)
 - Skip `/nnn` and code directly (plans help!)
 - Forget to `/ccc` before long breaks
+
+---
+
+## Research & Review Examples
+
+### Research a GitHub Repository
+
+```bash
+/research github:shadcn/ui
+```
+
+**Output:**
+```markdown
+## Repository Analysis: shadcn/ui
+
+**Stars**: 50k+ | **Language**: TypeScript
+**License**: MIT | **Updated**: Recently
+
+### Overview
+Beautifully designed components built with Radix UI and Tailwind CSS.
+
+### Project Structure
+- apps/www/ - Documentation site
+- packages/cli/ - CLI tool
+- packages/ui/ - Component source
+
+### Key Patterns
+- Radix UI primitives for accessibility
+- Tailwind CSS for styling
+- cn() utility for class merging
+
+### Learning Path
+1. Start with components/ui/button.tsx
+2. Study the cn() utility
+3. Look at Radix UI integration
+```
+
+### Research Documentation
+
+```bash
+/research https://nextjs.org/docs/app/building-your-application/routing
+```
+
+**Output:**
+```markdown
+## Website Analysis: Next.js App Router
+
+### Key Concepts
+- File-based routing
+- Layouts and templates
+- Loading and error states
+- Parallel and intercepting routes
+
+### Important Sections
+- Route Groups - Organize without affecting URL
+- Dynamic Routes - [slug] pattern
+- Route Handlers - API endpoints
+```
+
+### Review Current Project
+
+```bash
+/review
+```
+
+**Output:**
+```markdown
+## Project Review: my-app
+
+### Health Score: 8/10
+
+### Strengths
+✓ TypeScript strict mode
+✓ Good test coverage (75%)
+✓ Clean architecture
+
+### Areas for Improvement
+⚠ 3 TODO comments unaddressed
+⚠ Missing error boundaries
+⚠ 2 unused dependencies
+
+### Recommendations
+1. Add error boundaries
+2. Remove unused: moment, lodash
+3. Address TODOs in src/utils/
+```
 
 ---
 

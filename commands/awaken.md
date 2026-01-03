@@ -28,9 +28,9 @@ allowed-tools:
 ```
 /awaken
   │
-  ├─→ Install 8 commands to .claude/commands/
+  ├─→ Install 10 commands to .claude/commands/
   │
-  ├─→ Install 3 agents to .claude/agents/
+  ├─→ Install 4 agents to .claude/agents/
   │
   └─→ Create .ccc/memory/ for retrospectives
 ```
@@ -146,11 +146,13 @@ EOF
 ```
 ✅ CCC Workflow installed!
 
-Commands (8): .claude/commands/
-  ccc, nnn, gogogo, lll, rrr, wip, recap, forward
+Commands (10): .claude/commands/
+  Core:     ccc, nnn, gogogo, lll
+  Context:  rrr, wip, recap, forward
+  Research: research, review
 
-Agents (3): .claude/agents/
-  context-finder, executor, planner
+Agents (4): .claude/agents/
+  planner, executor, context-finder, researcher
 
 Memory: .ccc/memory/
   retrospectives/, learnings/
@@ -162,8 +164,8 @@ Ready! Try: /nnn "your first task"
 ```
 ✅ CCC Workflow installed!
 
-Commands (8): .claude/commands/
-Agents (3): .claude/agents/
+Commands (10): .claude/commands/
+Agents (4): .claude/agents/
 
 Project docs: .ccc/
   HOME.md, WIP.md, DECISIONS.md
