@@ -149,60 +149,6 @@ cat > "$DIR_NAME/DECISIONS.md" << 'EOF'
 EOF
 ```
 
-## Step 5: (If --full) Create Default Templates
-
-```bash
-# Thai Government Memo Template
-cat > "$DIR_NAME/templates/govdoc/memo.md" << 'EOF'
-# บันทึกข้อความ
-
-**ส่วนราชการ**: {{DEPARTMENT}}
-**ที่**: {{DOC_NUMBER}}
-**วันที่**: {{DATE}}
-
-**เรื่อง**: {{SUBJECT}}
-
-**เรียน**: {{RECIPIENT}}
-
-{{CONTENT}}
-
-จึงเรียนมาเพื่อโปรด{{ACTION}}
-
-{{SIGNATURE}}
-({{NAME}})
-{{POSITION}}
-EOF
-
-# Thai Government External Letter Template
-cat > "$DIR_NAME/templates/govdoc/external.md" << 'EOF'
-# หนังสือภายนอก
-
-**ที่**: {{ORG_CODE}}/{{YEAR}}
-**ส่วนราชการ**: {{DEPARTMENT}}
-
-**วันที่**: {{DATE}}
-
-**เรื่อง**: {{SUBJECT}}
-
-**เรียน**: {{RECIPIENT}}
-
-**สิ่งที่ส่งมาด้วย**: {{ATTACHMENTS}}
-
-{{CONTENT}}
-
-จึงเรียนมาเพื่อโปรด{{ACTION}}
-
-ขอแสดงความนับถือ
-
-{{SIGNATURE}}
-({{NAME}})
-{{POSITION}}
-
-{{CONTACT_DEPARTMENT}}
-โทร. {{PHONE}}
-EOF
-```
-
 ## Output
 
 **Standard (`/awaken`):**

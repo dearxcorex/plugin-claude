@@ -1,5 +1,5 @@
 ---
-description: Manage project templates for documents and code
+description: Create and manage your own project templates
 allowed-tools:
   - Read
   - Write
@@ -8,157 +8,56 @@ allowed-tools:
   - Glob
 ---
 
-# Template - Project Template Management
+# Template - Create Your Own Templates
 
-Manage and use templates for documents, code, and project structures.
+Create, manage, and use your own custom templates for documents, code, or any project files.
 
 ## Usage
 
 ```bash
-# List available templates
+# Create a new template
+/template new <name>
+
+# List your templates
 /template list
 
-# Get/download a template
-/template get govdoc-external
-/template get govdoc-memo
+# Edit a template
+/template edit <name>
 
-# Create file from template
-/template create memo "ขอความอนุเคราะห์"
+# Use template to generate
+/template use <name> "Title"
 
-# Show template info
-/template info govdoc-external
+# Import from URL or file
+/template import <source>
+
+# Delete a template
+/template delete <name>
 ```
 
-## Built-in Templates
+## Creating Templates
 
-### Thai Government Documents (หนังสือราชการ)
+### /template new <name>
 
-| Template | Description | File |
-|----------|-------------|------|
-| `govdoc-external` | หนังสือภายนอก (External letter) | .ccc/templates/govdoc/external.md |
-| `govdoc-internal` | หนังสือภายใน (Internal letter) | .ccc/templates/govdoc/internal.md |
-| `govdoc-memo` | บันทึกข้อความ (Memo) | .ccc/templates/govdoc/memo.md |
-| `govdoc-order` | คำสั่ง (Order) | .ccc/templates/govdoc/order.md |
-| `govdoc-announce` | ประกาศ (Announcement) | .ccc/templates/govdoc/announce.md |
-
-### Project Templates
-
-| Template | Description |
-|----------|-------------|
-| `spec` | Specification document |
-| `plan` | Implementation plan |
-| `retro` | Retrospective |
-
-## Commands
-
-### /template list
-
-Show all available templates:
-
-```
-📁 Available Templates
-
-Thai Government Documents (หนังสือราชการ):
-  govdoc-external   หนังสือภายนอก
-  govdoc-internal   หนังสือภายใน
-  govdoc-memo       บันทึกข้อความ
-  govdoc-order      คำสั่ง
-  govdoc-announce   ประกาศ
-
-Project Templates:
-  spec              Specification document
-  plan              Implementation plan
-  retro             Retrospective
-
-Use: /template get <name>
-```
-
-### /template get <name>
-
-Download/create template in `.ccc/templates/`:
+Create a new blank template:
 
 ```bash
-/template get govdoc-external
+/template new memo
+/template new report
+/template new govdoc-external
 ```
 
-**Output:**
-```
-✅ Template created: .ccc/templates/govdoc/external.md
+**What happens:**
+1. Creates `.ccc/templates/<name>.md`
+2. Opens for editing
+3. You define the structure
 
-Use: /template create govdoc-external "Your title"
-```
-
-### /template create <name> "title"
-
-Generate document from template:
+**Example - Creating a memo template:**
 
 ```bash
-/template create govdoc-memo "ขอความอนุเคราะห์ข้อมูล"
+/template new memo
 ```
 
-**Output:**
-```
-✅ Document created: .ccc/docs/memo-2024-01-15-001.md
-
-Edit the document, then use MCP to convert to Word/PDF.
-```
-
-## Template Format
-
-Templates use markdown with placeholders:
-
-```markdown
-# {{DOCUMENT_TYPE}}: {{TITLE}}
-
-**เลขที่**: {{DOCUMENT_NUMBER}}
-**วันที่**: {{DATE}}
-**ถึง**: {{RECIPIENT}}
-**จาก**: {{SENDER}}
-
-## เรื่อง
-{{SUBJECT}}
-
-## รายละเอียด
-{{CONTENT}}
-
-## ลงชื่อ
-{{SIGNATURE}}
-{{POSITION}}
-```
-
-## Thai Government Document Templates
-
-### หนังสือภายนอก (External Letter)
-
-```markdown
-# หนังสือภายนอก
-
-**ที่**: {{ORG_CODE}}/{{YEAR}}
-**ส่วนราชการ**: {{DEPARTMENT}}
-
-**วันที่**: {{DATE}}
-
-**เรื่อง**: {{SUBJECT}}
-
-**เรียน**: {{RECIPIENT}}
-
-**สิ่งที่ส่งมาด้วย**: {{ATTACHMENTS}}
-
-{{CONTENT}}
-
-จึงเรียนมาเพื่อโปรด{{ACTION}}
-
-ขอแสดงความนับถือ
-
-{{SIGNATURE}}
-({{NAME}})
-{{POSITION}}
-
-{{DEPARTMENT}}
-โทร. {{PHONE}}
-```
-
-### บันทึกข้อความ (Memo)
+Then you write your template:
 
 ```markdown
 # บันทึกข้อความ
@@ -175,58 +74,196 @@ Templates use markdown with placeholders:
 
 จึงเรียนมาเพื่อโปรด{{ACTION}}
 
-{{SIGNATURE}}
-({{NAME}})
+({{SIGNATURE}})
+{{NAME}}
 {{POSITION}}
 ```
 
-## Integration with MCP
+### /template edit <name>
 
-After creating document from template, use MCP to convert:
+Edit an existing template:
 
 ```bash
-# If document-operations MCP is installed
-# Claude can convert markdown to Word/PDF
+/template edit memo
+```
+
+Opens `.ccc/templates/memo.md` for editing.
+
+## Template Syntax
+
+### Placeholders
+
+Use `{{NAME}}` for dynamic content:
+
+```markdown
+# {{TITLE}}
+
+**Date**: {{DATE}}
+**Author**: {{AUTHOR}}
+
+## Content
+{{BODY}}
+```
+
+### Common Placeholders
+
+| Placeholder | Use For |
+|-------------|---------|
+| `{{TITLE}}` | Document title |
+| `{{DATE}}` | Current date |
+| `{{AUTHOR}}` | Author name |
+| `{{CONTENT}}` | Main content |
+| `{{SUBJECT}}` | Subject line |
+| `{{RECIPIENT}}` | Recipient |
+| `{{SIGNATURE}}` | Signature |
+
+### Custom Placeholders
+
+Create any placeholder you need:
+
+```markdown
+{{DEPARTMENT}}
+{{DOC_NUMBER}}
+{{PHONE}}
+{{EMAIL}}
+{{CUSTOM_FIELD}}
+```
+
+## Using Templates
+
+### /template use <name> "Title"
+
+Generate document from your template:
+
+```bash
+/template use memo "ขอความอนุเคราะห์ข้อมูล"
+```
+
+**What happens:**
+1. Reads `.ccc/templates/memo.md`
+2. Claude fills placeholders based on title and context
+3. Creates `.ccc/docs/memo-YYYY-MM-DD-XXX.md`
+4. You review and finalize
+
+## Importing Templates
+
+### /template import <source>
+
+Import from URL:
+```bash
+/template import https://raw.githubusercontent.com/user/repo/template.md
+```
+
+Import from local file:
+```bash
+/template import ./downloads/template.md
+```
+
+Import from another project:
+```bash
+/template import /path/to/project/.ccc/templates/memo.md
+```
+
+## Managing Templates
+
+### /template list
+
+Show all your templates:
+
+```
+📁 Your Templates (.ccc/templates/)
+
+  memo.md              - Created 2024-01-15
+  external-letter.md   - Created 2024-01-14
+  report.md            - Created 2024-01-10
+
+Total: 3 templates
+```
+
+### /template delete <name>
+
+Remove a template:
+
+```bash
+/template delete old-template
 ```
 
 ## Directory Structure
 
 ```
 .ccc/
-├── templates/
-│   ├── govdoc/
-│   │   ├── external.md
-│   │   ├── internal.md
-│   │   ├── memo.md
-│   │   ├── order.md
-│   │   └── announce.md
-│   └── project/
-│       ├── spec.md
-│       ├── plan.md
-│       └── retro.md
-└── docs/                  ← Generated documents
+├── templates/           ← Your templates
+│   ├── memo.md
+│   ├── external-letter.md
+│   └── report.md
+└── docs/                ← Generated documents
     ├── memo-2024-01-15-001.md
-    └── external-2024-01-15-001.md
+    └── report-2024-01-15-001.md
 ```
 
-## Examples
+## Example: Thai Government Memo
 
-### Create a Memo
+### Step 1: Create template
 
 ```bash
-/template create govdoc-memo "ขอความอนุเคราะห์ข้อมูลสถิติ"
+/template new govdoc-memo
 ```
 
-### Create External Letter
+### Step 2: Write your template
+
+```markdown
+# บันทึกข้อความ
+
+**ส่วนราชการ**: {{DEPARTMENT}}
+**ที่**: {{DOC_NUMBER}}
+**วันที่**: {{DATE}}
+
+---
+
+**เรื่อง**: {{SUBJECT}}
+
+**เรียน**: {{RECIPIENT}}
+
+{{CONTENT}}
+
+จึงเรียนมาเพื่อโปรด{{ACTION}}
+
+---
+
+{{SIGNATURE}}
+({{NAME}})
+{{POSITION}}
+```
+
+### Step 3: Use it
 
 ```bash
-/template create govdoc-external "ขอเชิญเป็นวิทยากร"
+/template use govdoc-memo "ขอความอนุเคราะห์"
 ```
 
-### List and Get Templates
+### Step 4: Claude generates
 
-```bash
-/template list
-/template get govdoc-external
-/template info govdoc-external
-```
+Creates `.ccc/docs/govdoc-memo-2024-01-15-001.md` with placeholders filled.
+
+## Tips
+
+### Do
+- Create templates for documents you use often
+- Use clear placeholder names
+- Keep templates in version control
+
+### Don't
+- Hardcode values that change
+- Make templates too complex
+- Forget to test templates
+
+## Quick Reference
+
+| Command | Action |
+|---------|--------|
+| `/template new <name>` | Create template |
+| `/template list` | Show templates |
+| `/template edit <name>` | Edit template |
+| `/template use <name> "title"` | Generate from template |
+| `/template import <url>` | Import template |
+| `/template delete <name>` | Delete template |
