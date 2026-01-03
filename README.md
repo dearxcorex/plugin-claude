@@ -33,7 +33,7 @@ One command to setup everything. Run once per project.
 ```
 your-project/
 ├── .claude/
-│   ├── commands/              ← 12 workflow commands
+│   ├── commands/              ← 10 workflow commands
 │   │   ├── nnn.md
 │   │   ├── gogogo.md
 │   │   ├── lll.md
@@ -43,19 +43,13 @@ your-project/
 │   │   ├── recap.md
 │   │   ├── forward.md
 │   │   ├── research.md
-│   │   ├── review.md
-│   │   ├── template.md        ← NEW
-│   │   └── mcp-setup.md       ← NEW
-│   └── agents/                ← 5 AI agents
+│   │   └── review.md
+│   └── agents/                ← 4 AI agents
 │       ├── planner.md
 │       ├── executor.md
 │       ├── context-finder.md
-│       ├── researcher.md
-│       └── document.md        ← NEW
+│       └── researcher.md
 └── .ccc/
-    ├── templates/             ← document templates
-    │   └── govdoc/            ← Thai gov docs
-    ├── docs/                  ← generated documents
     └── memory/
         ├── retrospectives/
         └── learnings/
@@ -67,19 +61,16 @@ your-project/
 ```
 ✅ CCC Workflow installed!
 
-Commands (12): .claude/commands/
+Commands (10): .claude/commands/
   Core:      ccc, nnn, gogogo, lll
   Context:   rrr, wip, recap, forward
   Research:  research, review
-  Document:  template, mcp-setup
 
-Agents (5): .claude/agents/
-  planner, executor, context-finder, researcher, document
+Agents (4): .claude/agents/
+  planner, executor, context-finder, researcher
 
 Directories: .ccc/
-  memory/     (retrospectives, learnings)
-  templates/  (document templates)
-  docs/       (generated documents)
+  memory/  (retrospectives, learnings)
 
 Ready! Try: /nnn "your first task"
 ```
@@ -265,7 +256,7 @@ Creates:
 | `/forward` | Forward context | Before `/clear` |
 | `/rrr` | Write retrospective | After completing work |
 
-### Research Commands (New!)
+### Research Commands
 
 | Command | Purpose | Example |
 |---------|---------|---------|
@@ -521,8 +512,8 @@ cd shop-app
 ```
 ✅ CCC Workflow installed!
 
-Commands (8): .claude/commands/
-Agents (3): .claude/agents/
+Commands (10): .claude/commands/
+Agents (4): .claude/agents/
 Project docs: .ccc/
   HOME.md, WIP.md, DECISIONS.md
   memory/retrospectives/, memory/learnings/
@@ -596,50 +587,6 @@ Research found:
 Ready to /gogogo
 ```
 
-**GitHub Issue #13 created:**
-```markdown
-# Implementation Plan: Add to Cart
-
-**Created**: 2024-01-15 10:30 GMT+7
-
-## Problem Statement
-Add "Add to Cart" functionality to product cards.
-
-## Research Summary
-### Relevant Files
-- `src/components/ProductCard.tsx` - Add button here
-- `src/store/index.ts` - Zustand store, add cart slice
-- `src/types/product.ts` - Product type exists
-
-### Existing Patterns
-- Using Zustand for state management
-- Tailwind for styling
-- Product type: { id, name, price, image }
-
-## Implementation Steps
-
-### Phase 1: Cart State
-- [ ] Create cart types (CartItem, CartState)
-- [ ] Add cart slice to Zustand store
-- [ ] Implement addToCart, removeFromCart, clearCart
-
-### Phase 2: UI Components
-- [ ] Create AddToCartButton component
-- [ ] Add button to ProductCard
-- [ ] Create CartIcon with item count badge
-
-### Phase 3: Cart Drawer
-- [ ] Create CartDrawer component
-- [ ] Show cart items with quantities
-- [ ] Add remove and quantity controls
-
-## Success Criteria
-- [ ] Can add products to cart
-- [ ] Cart persists across page navigation
-- [ ] Cart icon shows item count
-- [ ] Can view and modify cart contents
-```
-
 ```bash
 # Execute the plan
 /gogogo
@@ -657,25 +604,7 @@ Add "Add to Cart" functionality to product cards.
       → Modifying src/store/index.ts
       ✓ Done
 
-[3/7] Implementing cart actions...
-      → addToCart, removeFromCart, updateQuantity, clearCart
-      ✓ Done
-
-[4/7] Creating AddToCartButton component...
-      → Creating src/components/AddToCartButton.tsx
-      ✓ Done
-
-[5/7] Adding button to ProductCard...
-      → Modifying src/components/ProductCard.tsx
-      ✓ Done
-
-[6/7] Creating CartIcon component...
-      → Creating src/components/CartIcon.tsx
-      ✓ Done
-
-[7/7] Creating CartDrawer component...
-      → Creating src/components/CartDrawer.tsx
-      ✓ Done
+...
 
 Running build... ✓ Passed
 Running tests... ✓ 8 passed
@@ -730,23 +659,6 @@ Your teammate reviewed PR #14 and left comments. Start new session:
 /lll
 ```
 
-**Output:**
-```
-## Project Status
-
-Branch: feat/13-add-to-cart
-
-Open Issues (2):
-  #15 - context: Add to cart complete
-  #12 - feat: Add to cart functionality
-
-Open PRs (1):
-  #14 - feat: Add to cart [Changes requested]
-
-Recent Commits:
-  abc1234 feat: Add to cart functionality
-```
-
 ```bash
 # Get context from yesterday
 /recap
@@ -774,25 +686,7 @@ Recent Commits:
 ```bash
 # Plan the fixes
 /nnn "Address PR #14 review feedback"
-```
-
-**Output:**
-```
-✅ Plan created: #16
-   "plan: Address PR review feedback"
-
-Steps:
-  1. Add loading state to AddToCartButton
-  2. Add stock check before adding
-  3. Add toast notification
-
-Ready to /gogogo
-```
-
-```bash
 /gogogo
-# Makes changes, pushes to same branch
-# PR #14 auto-updates
 ```
 
 ---
@@ -805,28 +699,9 @@ PR #14 merged! Start new feature:
 /lll
 ```
 
-**Output:**
-```
-## Project Status
-
-Branch: main (+1 ahead after merge)
-
-Open Issues (1):
-  #18 - feat: Add wishlist functionality
-
-Open PRs (0)
-All merged!
-
-Recent Commits:
-  xyz789 feat: Add to cart (#14)
-```
-
 ```bash
 # Plan next feature
 /nnn "#18"   # Reference existing issue
-```
-
-```bash
 /gogogo
 ```
 
@@ -839,38 +714,7 @@ Recent Commits:
 
 ---
 
-### Weekly Summary
-
-```bash
-/lll
-```
-
-**Output:**
-```
-## Project Status
-
-Branch: main (clean)
-
-Open Issues (2):
-  #22 - feat: Checkout flow
-  #21 - context: Week 1 complete
-
-Open PRs (0)
-All merged!
-
-Recent Commits (this week):
-  def456 feat: Wishlist functionality (#19)
-  xyz789 feat: Add to cart (#14)
-
-Stats:
-  - 2 features shipped
-  - 3 PRs merged
-  - 0 bugs introduced
-```
-
----
-
-### Quick Reference for This Project
+### Quick Reference
 
 ```bash
 # Morning routine
@@ -888,152 +732,6 @@ Stats:
 # End of day/week
 /rrr                    # Retrospective
 ```
-
----
-
-## Step-by-Step: Document Generation Project
-
-Complete guide for building a document generation system (e.g., Thai government documents).
-
-### Phase 1: Setup (Day 1)
-
-```bash
-# Create your project
-mkdir thai-govdoc-ai
-cd thai-govdoc-ai
-git init
-
-# Setup CCC workflow with full templates
-/awaken --full
-```
-
-**Your project now has:**
-```
-thai-govdoc-ai/
-├── .claude/
-│   ├── commands/      ← 12 commands ready
-│   └── agents/        ← 5 agents ready
-└── .ccc/
-    ├── HOME.md        ← Edit with project info
-    ├── templates/
-    │   └── govdoc/    ← Thai document templates
-    └── docs/          ← Generated documents go here
-```
-
-### Phase 2: Setup MCP for Word/PDF (Day 1)
-
-```bash
-# View MCP setup guide
-/mcp-setup documents
-```
-
-**Add to `~/.claude/settings.json`:**
-```json
-{
-  "mcpServers": {
-    "document-operations": {
-      "command": "uvx",
-      "args": ["document-operations-mcp"]
-    }
-  }
-}
-```
-
-**Restart Claude Code and verify:**
-```bash
-exit
-claude
-/mcp
-```
-
-### Phase 3: Research (Day 1-2)
-
-```bash
-# Research Thai government document formats
-/research "หนังสือราชการ format ระเบียบสำนักนายกรัฐมนตรี"
-
-# Research existing tools
-/research github:whs/typst-govdoc
-
-# Download official templates
-/research https://www.kruchiangrai.net/2021/11/12/หนังสือราชการ/
-```
-
-### Phase 4: Plan Your System (Day 2)
-
-```bash
-# Create implementation plan
-/nnn "Build Thai government document generator with AI"
-```
-
-**Plan will include:**
-- Document understanding agent
-- Template selection logic
-- Content generation with formal Thai
-- Format validation
-- Word/PDF output
-
-### Phase 5: Implement (Day 3-5)
-
-```bash
-# Execute the plan
-/gogogo
-
-# Review implementation
-/review
-```
-
-### Phase 6: Use Templates (Ongoing)
-
-```bash
-# List available templates
-/template list
-
-# Create memo
-/template create govdoc-memo "ขอความอนุเคราะห์ข้อมูล"
-
-# Create external letter
-/template create govdoc-external "ขอเชิญเป็นวิทยากร"
-```
-
-### Complete Workflow
-
-```
-/awaken --full          # Setup project
-        ↓
-/mcp-setup documents    # Setup Word/PDF MCP
-        ↓
-/research               # Research requirements
-        ↓
-/nnn "your system"      # Plan implementation
-        ↓
-/gogogo                 # Build it
-        ↓
-/template create        # Use templates
-        ↓
-MCP converts to Word/PDF
-        ↓
-Final Document Ready!
-```
-
-### Document Commands Reference
-
-| Command | Purpose |
-|---------|---------|
-| `/template list` | Show all templates |
-| `/template get <name>` | Download template |
-| `/template create <name> "title"` | Create document |
-| `/mcp-setup documents` | Setup MCP for docs |
-
-### Thai Government Document Templates
-
-| Template | Thai Name |
-|----------|-----------|
-| `govdoc-external` | หนังสือภายนอก |
-| `govdoc-internal` | หนังสือภายใน |
-| `govdoc-memo` | บันทึกข้อความ |
-| `govdoc-order` | คำสั่ง |
-| `govdoc-announce` | ประกาศ |
 
 ---
 

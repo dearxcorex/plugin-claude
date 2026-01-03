@@ -16,7 +16,7 @@ allowed-tools:
 # Standard setup (recommended)
 /awaken
 
-# Full setup with project docs + templates
+# Full setup with project docs
 /awaken --full
 
 # Custom memory directory
@@ -28,13 +28,11 @@ allowed-tools:
 ```
 /awaken
   │
-  ├─→ Install 12 commands to .claude/commands/
+  ├─→ Install 10 commands to .claude/commands/
   │
-  ├─→ Install 5 agents to .claude/agents/
+  ├─→ Install 4 agents to .claude/agents/
   │
-  ├─→ Create .ccc/memory/ for retrospectives
-  │
-  └─→ Create .ccc/templates/ for document templates
+  └─→ Create .ccc/memory/ for retrospectives
 ```
 
 **With `--full`:**
@@ -47,8 +45,6 @@ allowed-tools:
       ├── HOME.md        (project overview)
       ├── WIP.md         (work in progress)
       ├── DECISIONS.md   (architecture decisions)
-      ├── templates/     (document templates)
-      │   └── govdoc/    (Thai government docs)
       └── memory/
           ├── retrospectives/
           └── learnings/
@@ -77,17 +73,13 @@ cp "$PLUGIN_DIR"bundles/agents/*.md .claude/agents/
 # Default directory name (or use --dir argument)
 DIR_NAME=".ccc"
 
-# Create all directories
+# Create directories
 mkdir -p "$DIR_NAME/memory/retrospectives"
 mkdir -p "$DIR_NAME/memory/learnings"
-mkdir -p "$DIR_NAME/templates/govdoc"
-mkdir -p "$DIR_NAME/docs"
 
 # Add .gitkeep to preserve empty dirs
 touch "$DIR_NAME/memory/retrospectives/.gitkeep"
 touch "$DIR_NAME/memory/learnings/.gitkeep"
-touch "$DIR_NAME/templates/.gitkeep"
-touch "$DIR_NAME/docs/.gitkeep"
 ```
 
 ## Step 4: (If --full) Create Project Docs
@@ -155,19 +147,16 @@ EOF
 ```
 ✅ CCC Workflow installed!
 
-Commands (12): .claude/commands/
+Commands (10): .claude/commands/
   Core:      ccc, nnn, gogogo, lll
   Context:   rrr, wip, recap, forward
   Research:  research, review
-  Document:  template, mcp-setup
 
-Agents (5): .claude/agents/
-  planner, executor, context-finder, researcher, document
+Agents (4): .claude/agents/
+  planner, executor, context-finder, researcher
 
 Directories: .ccc/
-  memory/       (retrospectives, learnings)
-  templates/    (document templates)
-  docs/         (generated documents)
+  memory/  (retrospectives, learnings)
 
 Ready! Try: /nnn "your first task"
 ```
@@ -176,14 +165,12 @@ Ready! Try: /nnn "your first task"
 ```
 ✅ CCC Workflow installed!
 
-Commands (12): .claude/commands/
-Agents (5): .claude/agents/
+Commands (10): .claude/commands/
+Agents (4): .claude/agents/
 
 Project structure: .ccc/
   HOME.md, WIP.md, DECISIONS.md
-  templates/govdoc/  (Thai gov document templates)
-  memory/            (retrospectives, learnings)
-  docs/              (generated documents)
+  memory/  (retrospectives, learnings)
 
 Ready! Try: /nnn "your first task"
 ```
@@ -194,15 +181,12 @@ Your project structure:
 ```
 your-project/
 ├── .claude/
-│   ├── commands/      ← 12 workflow commands
-│   └── agents/        ← 5 specialized agents
+│   ├── commands/      ← 10 workflow commands
+│   └── agents/        ← 4 specialized agents
 ├── .ccc/
 │   ├── HOME.md        ← (only with --full)
 │   ├── WIP.md         ← (only with --full)
 │   ├── DECISIONS.md   ← (only with --full)
-│   ├── templates/     ← document templates
-│   │   └── govdoc/    ← Thai government docs
-│   ├── docs/          ← generated documents
 │   └── memory/
 │       ├── retrospectives/
 │       └── learnings/
@@ -215,12 +199,6 @@ After `/awaken`, just use:
 ```bash
 /nnn "Add user login"    # Plan a task
 /gogogo                   # Execute it
-```
-
-For document projects:
-```bash
-/template list           # See available templates
-/mcp-setup documents     # Setup document MCP
 ```
 
 That's it! No other setup needed.
